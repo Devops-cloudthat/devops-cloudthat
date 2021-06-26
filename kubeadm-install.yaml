@@ -21,12 +21,18 @@
             become: yes
             become_user: ubuntu
             file:
-              path: $HOME/.kube
+              path: /home/ubuntu/.kube
               state: directory
+              mode: 0666
+          - name: Create .kube/config file
+            become: yes
+            become_user: ubuntu
+            file:
+              path: /home/ubuntu/.kube/config
+              state: touch
               mode: 0777
-
-          - name: providing it network
-            shell: sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config && export kubever=$(kubectl version | base64 | tr -d '\n') && kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+          - name: Installing CNI network
+            shell: sudo cp -f /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && export kubever=$(kubectl version | base64 | tr -d '\n') && kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
             register: out
 
           - name: listing the control plane pods
