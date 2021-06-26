@@ -43,6 +43,6 @@
           - name: Transfer kube config file kubeadm to Jenkins
             synchronize:
               src: /home/ubuntu/.kube/config
-              dest: $HOME/.kube/config
+              dest: $HOME/config
             delegate_to: kubeadm-node
 
