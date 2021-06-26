@@ -20,6 +20,8 @@
             register: initout
            
           - name: Installing CNI network
+            become: yes
+            become_user: ubuntu
             shell: mkdir -p /home/ubuntu/.kube &&  sudo cp -i /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config && sudo cp -f /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && export kubever=$(kubectl version | base64 | tr -d '\n') && kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
             register: cniout
 
