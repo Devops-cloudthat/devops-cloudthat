@@ -12,5 +12,4 @@ resource "aws_instance" "kubeadm" {
   tags = {
       Name = "kubeadm"
   }
-
-
+}
