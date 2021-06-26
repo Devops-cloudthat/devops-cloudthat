@@ -11,17 +11,17 @@
             become: yes
             become_user: root
             shell: bash /home/ubuntu/kubeadm-script-v1.18.sh
-            register: install-out
+            register: installout
 
           - name: Start the cluster
             become: yes
             become_user: root
             shell: "kubeadm reset && kubeadm init"
-            register: init-out
+            register: initout
            
           - name: Installing CNI network
             shell: mkdir -p /home/ubuntu/.kube &&  sudo cp -i /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config && sudo cp -f /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && export kubever=$(kubectl version | base64 | tr -d '\n') && kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
-            register: cni-out
+            register: cniout
 
           - name: listing the control plane pods
             shell: kubectl get pods --namespace=kube-system --kubeconfig=/home/ubuntu/.kube/config
