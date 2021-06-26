@@ -46,7 +46,7 @@
               dest: /home/ubuntu
             
           - name: deploy the application and expose as NodePort
-            shell: kubectl apply -kubeconfig=/home/ubuntu/.kube/config -f /home/ubuntu/kubectl-deploy.yaml && kubectl get deploy && kubectl get svc 
+            shell: kubectl apply --kubeconfig=/home/ubuntu/.kube/config -f /home/ubuntu/kubectl-deploy.yaml  && kubectl get deploy --kubeconfig=/home/ubuntu/.kube/config && kubectl get svc --kubeconfig=/home/ubuntu/.kube/config
           
 
       
