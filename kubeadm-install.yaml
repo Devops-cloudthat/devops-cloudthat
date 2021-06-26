@@ -40,8 +40,13 @@
           - name: unitainting the master node
             shell: kubectl taint nodes --all node-role.kubernetes.io/master- --kubeconfig=/home/ubuntu/.kube/config
             
+          - name: copy the manifest to master
+            copy:
+              source: $WORKSPACE/kubectl-deploy.yaml
+              destination: /home/ubuntu
+            
           - name: deploy the application and expose as NodePort
-            shell: kubectl apply -f kubectl-deploy.yaml && kubectl get deploy && kubectl get svc 
+            shell: kubectl apply -kubeconfig=/home/ubuntu/.kube/config -f /home/ubuntu/kubectl-deploy.yaml && kubectl get deploy && kubectl get svc 
           
 
       
