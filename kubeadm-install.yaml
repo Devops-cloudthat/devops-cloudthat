@@ -45,6 +45,6 @@
             become_user: ubuntu
             synchronize:
               src: /home/ubuntu/.kube/config
-              dest: /home/ubuntu/config
+              dest: /home/ubuntu/.kube/config
             delegate_to: kubeadm-node
 
