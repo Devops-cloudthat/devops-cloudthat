@@ -39,6 +39,10 @@
           
           - name: unitainting the master node
             shell: kubectl taint nodes --all node-role.kubernetes.io/master- --kubeconfig=/home/ubuntu/.kube/config
+            
+          - name: deploy the application and expose as NodePort
+            shell: kubectl apply -f kubectl-deploy.yaml && kubectl get deploy && kubectl get svc 
+          
 
       
 
