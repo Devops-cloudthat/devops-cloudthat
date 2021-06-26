@@ -11,29 +11,17 @@
             become: yes
             become_user: root
             shell: bash /home/ubuntu/kubeadm-script-v1.18.sh
+            register: install-out
 
           - name: Start the cluster
             become: yes
             become_user: root
-            command: "kueadm reset && kubeadm init"
- 
-          - name: create .kube directory
-            become: yes
-            become_user: ubuntu
-            file:
-              path: /home/ubuntu/.kube
-              state: directory
-              mode: 0666
-          - name: Create .kube/config file
-            become: yes
-            become_user: ubuntu
-            file:
-              path: /home/ubuntu/.kube/config
-              state: touch
-              mode: 0777
+            shell: "kubeadm reset && kubeadm init"
+            register: init-out
+           
           - name: Installing CNI network
-            shell: sudo cp -f /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && export kubever=$(kubectl version | base64 | tr -d '\n') && kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
-            register: out
+            shell: mkdir -p /home/ubuntu/.kube &&  sudo cp -i /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config && sudo cp -f /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && export kubever=$(kubectl version | base64 | tr -d '\n') && kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+            register: cni-out
 
           - name: listing the control plane pods
             shell: kubectl get pods --namespace=kube-system --kubeconfig=/home/ubuntu/.kube/config
@@ -46,7 +34,7 @@
 
           - name: Transfer kube config file kubeadm to Jenkins
             synchronize:
-              src: $HOME/.kube/config
+              src: /home/ubuntu/.kube/config
               dest: $HOME/.kube/config
             delegate_to: kubeadm-node
 
