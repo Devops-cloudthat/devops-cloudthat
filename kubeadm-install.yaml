@@ -16,7 +16,7 @@
           - name: Start the cluster
             become: yes
             become_user: root
-            shell: "kubeadm reset && kubeadm init"
+            shell: "kubeadm reset -f && kubeadm init"
             register: initout
            
           - name: Installing CNI network
