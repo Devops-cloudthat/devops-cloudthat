@@ -25,19 +25,10 @@
               path: /home/ubuntu/.kube
               state: directory
               mode: 0666
-          - name: create .kube/config file
-            become: yes
-            become_user: ubuntu
-            file:
-              path: /home/ubuntu/.kube/config
-              state: file
-              owner: ubuntu
-              group: ubuntu
-              mode: 0777
           - name: Installing CNI network
             become: yes
             become_user: root
-            shell: sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config && sudo cp -f /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && export kubever=$(kubectl version | base64 | tr -d '\n') && kubectl apply --kubeconfig /home/ubuntu/.kube/config -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
+            shell: sudo cp -f /etc/kubernetes/admin.conf /home/ubuntu/.kube/config && sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config && export kubever=$(kubectl version | base64 | tr -d '\n') && kubectl apply --kubeconfig /home/ubuntu/.kube/config -f "https://cloud.weave.works/k8s/net?k8s-version=$kubever"
             register: cniout
 
           - name: listing the control plane pods
