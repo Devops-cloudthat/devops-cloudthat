@@ -41,8 +41,10 @@
             shell: kubectl taint nodes --all node-role.kubernetes.io/master- --kubeconfig=/home/ubuntu/.kube/config
 
           - name: Transfer kube config file kubeadm to Jenkins
+            become: yes
+            become_user: ubuntu
             synchronize:
               src: /home/ubuntu/.kube/config
-              dest: $HOME/config
+              dest: /home/ubuntu/config
             delegate_to: kubeadm-node
 
