@@ -38,7 +38,7 @@
             shell: kubectl get nodes --namespace=kube-system --kubeconfig=/home/ubuntu/.kube/config
           
           - name: unitainting the master node
-            shell: kubectl taint nodes --all node-role.kubernetes.io/master-
+            shell: kubectl taint nodes --all node-role.kubernetes.io/master- --kubeconfig=/home/ubuntu/.kube/config
 
           - name: Transfer kube config file kubeadm to Jenkins
             synchronize:
