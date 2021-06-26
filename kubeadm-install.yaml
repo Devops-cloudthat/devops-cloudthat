@@ -30,7 +30,7 @@
             become_user: ubuntu
             file:
               path: /home/ubuntu/.kube/config
-              state: touch
+              state: file
               mode: 0777
           - name: Installing CNI network
             become: yes
